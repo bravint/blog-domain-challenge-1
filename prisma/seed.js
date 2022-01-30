@@ -7,18 +7,26 @@ async function seed() {
             username: 'bravin',
             password: 'niceTry',
             email: 'bravin@mail.com',
-            profile: {
-                create: {
-                    picture: `www.bravin.com/picture`,
-                    bio: 'I would like to be a dinosaur',
+        },
+    });
+
+    console.log(`users created`, createdUser);
+
+    // Add your code here
+
+    const createdProfile = await prisma.profile.create({
+        data: {
+            picture: `www.bravin.com/picture`,
+            bio: 'I would like to be a dinosaur',
+            user: {
+                connect: {
+                    id: createdUser.id,
                 },
             },
         },
     });
 
-    console.log(`sers created`, createdUser);
-
-    // Add your code here
+    console.log(`profile created`, createdProfile);
 
     const createdPost = await prisma.post.create({
         data: {
@@ -50,7 +58,7 @@ async function seed() {
         },
     });
 
-    console.log(`post created`, createdComment);
+    console.log(`comment created`, createdComment);
 
     // Don't edit any of the code below this line
     process.exit(0);
