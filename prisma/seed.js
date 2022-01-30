@@ -20,6 +20,17 @@ async function seed() {
 
     // Add your code here
 
+    const createdPost = await prisma.post.create({
+        data: {
+            title: 'becoming a dinosaur',
+            content: 'maybe watching jurassic park again might be a good idea',
+            userId: 1
+        },
+    });
+
+    console.log(`post created`, createdPost);
+
+
     // Don't edit any of the code below this line
     process.exit(0);
 }
