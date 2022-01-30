@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function seed() {
-    const createdUsers = await prisma.user.create({
+    const createdUser = await prisma.user.create({
         data: {
             username: 'bravin',
             password: 'niceTry',
@@ -16,7 +16,7 @@ async function seed() {
         },
     });
 
-    console.log(`${createdUsers.count} users created`, createdUsers);
+    console.log(`sers created`, createdUser);
 
     // Add your code here
 
@@ -24,12 +24,33 @@ async function seed() {
         data: {
             title: 'becoming a dinosaur',
             content: 'maybe watching jurassic park again might be a good idea',
-            userId: 1
+            user: {
+                connect: {
+                    id: createdUser.id,
+                },
+            },
         },
     });
 
     console.log(`post created`, createdPost);
 
+    const createdComment = await prisma.comment.create({
+        data: {
+            content: 'test reply',
+            user: {
+                connect: {
+                    id: createdUser.id,
+                },
+            },
+            post: {
+                connect: {
+                    id: createdPost.id,
+                },
+            },
+        },
+    });
+
+    console.log(`post created`, createdComment);
 
     // Don't edit any of the code below this line
     process.exit(0);
